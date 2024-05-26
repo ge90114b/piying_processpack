@@ -1,6 +1,6 @@
 <?xml version="1.0"?>  
 <package format="3">  
-  <name>piying-processpack</name>  
+  <name>piying_processpack</name>  
   <version>0.0.1</version>  
   <description>Piyingbot process package</description>  
   
