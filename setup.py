@@ -1,6 +1,6 @@
 from setuptools import setup
  
-package_name = 'process_package'
+package_name = 'piying-processpack'
  
 setup(
     name=package_name,
@@ -20,8 +20,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'yolo=process.yolo_node:main',
-            'frontend=process.frontend:main'
+            'yolo=piying-processpack.yolo_node:main',
+            'frontend=piying-processpack.frontend:main'
         ],
     },
 )
