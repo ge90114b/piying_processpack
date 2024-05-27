@@ -35,7 +35,7 @@ class YoloNode(Node):
         self.udp_thread.start()  
     def trans_to_ros(self,frame):
         # 将OpenCV图像转换为ROS 2 Image消息  
-                    header = Header(stamp=int(time.time))
+                    header = Header(stamp=int(time.time()))
                     header.frame_id = 'result'  
                     image_msg = Image()  
                     image_msg.header = header  
