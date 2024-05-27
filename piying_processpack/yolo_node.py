@@ -70,9 +70,12 @@ class YoloNode(Node):
                     frame = cv2.imdecode(frame, cv2.IMREAD_COLOR)  
                     inference=self.inference(frame)
                     frame=inference[0]
+                    new_width = int(frame.shape[1] / 2)  
+                    new_height = int(frame.shape[0] / 2)  
+                    resized_frame = cv2.resize(frame, (new_width, new_height), interpolation=cv2.INTER_LINEAR)
   
                     # 发布ROS 2 Image消息  
-                    publish_thread = threading.Thread(target=self.pub_img, args=(frame,))  
+                    publish_thread = threading.Thread(target=self.pub_img, args=(resized_frame,))  
                     publish_thread.start()
                     points=String()
                     points.data=str(inference[1])
