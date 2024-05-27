@@ -10,6 +10,7 @@ import socket
 import struct  
 import numpy as np  
 import cv2  
+import time
 import threading
 class YoloNode(Node):  
     def __init__(self):  
@@ -34,7 +35,7 @@ class YoloNode(Node):
         self.udp_thread.start()  
     def trans_to_ros(self,frame):
         # 将OpenCV图像转换为ROS 2 Image消息  
-                    header = Header(stamp=rclpy.Time.now())
+                    header = Header(stamp=int(time.time))
                     header.frame_id = 'result'  
                     image_msg = Image()  
                     image_msg.header = header  
