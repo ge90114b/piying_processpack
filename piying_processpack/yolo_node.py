@@ -2,8 +2,6 @@ import rclpy
 from rclpy.node import Node  
 from sensor_msgs.msg import Image  
 from std_msgs.msg import String
-from sensor_msgs.msg import Image as SensorImage  
-BGR8 = SensorImage.BGR8
 from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy 
 from ultralytics import YOLO
 import torch 
@@ -40,7 +38,7 @@ class YoloNode(Node):
                     image_msg.header = header  
                     image_msg.height = frame.shape[0]  
                     image_msg.width = frame.shape[1]  
-                    image_msg.encoding = BGR8  
+                    image_msg.encoding = "bgr8" 
                     image_msg.is_bigendian = 0  
                     image_msg.step = frame.shape[1] * frame.shape[2]  
                     image_msg.data = frame.tobytes() 
