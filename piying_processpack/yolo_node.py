@@ -66,6 +66,7 @@ class YoloNode(Node):
                     self.points_publisher.publish(interface[1]) 
   
             except Exception as e:  
+                print("connect error",e)
                 self.get_logger().error(f'Error in UDP listener: {e}')  
 
     def shutdown(self):  
