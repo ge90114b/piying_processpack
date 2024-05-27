@@ -58,7 +58,7 @@ class YoloNode(Node):
          ret=[annotated_frame,keypoints]
          return ret
     def pub_img(self,frame):
-         self.image_publisher(self.trans_to_ros(frame))
+         self.image_publisher.publish(self.trans_to_ros(frame))
     def udp_listener(self):  
         while rclpy.ok():  
             try:  
