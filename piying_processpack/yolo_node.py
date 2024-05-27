@@ -57,6 +57,8 @@ class YoloNode(Node):
          keypoints = result[0].keypoints.xy.squeeze().tolist()
          ret=[annotated_frame,keypoints]
          return ret
+    def pub_img(self,frame):
+         self.image_publisher(self.trans_to_ros(frame))
     def udp_listener(self):  
         while rclpy.ok():  
             try:  
@@ -70,8 +72,12 @@ class YoloNode(Node):
                     frame=inference[0]
   
                     # 发布ROS 2 Image消息  
+                    publish_thread = threading.Thread(target=self.pub_img, args=(frame,))  
+                    publish_thread.start()
                     self.image_publisher.publish(self.trans_to_ros(frame)) 
-                    self.points_publisher.publish(String(str(inference[1]))) 
+                    points=String()
+                    points.data=str(inference[1])
+                    self.points_publisher.publish(points) 
   
             except Exception as e:  
                 print("connect error",e)
