@@ -5,7 +5,9 @@ from sensor_msgs.msg import Image
 from std_msgs.msg import String  
 from cv_bridge import CvBridge  
 import cv2  
-  
+
+cv_image = 0 #增添全局变量
+
 class ImageAndPointsSubscriber(Node):  
   
     def __init__(self):  
@@ -29,9 +31,10 @@ class ImageAndPointsSubscriber(Node):
             qos_profile)  
   
     def image_callback(self, msg):  
+        global cv_image
         cv_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')  
-        cv2.imshow('Interface', cv_image)  
-        cv2.waitKey(1)  
+        #cv2.imshow('Interface', cv_image)  
+        #cv2.waitKey(1)  
   
     def points_callback(self, msg):  
         self.get_logger().info(f'Received points message: {msg.data}')  
