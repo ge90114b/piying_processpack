@@ -43,13 +43,13 @@ class YoloNode(Node):
                     header = Header(stamp=ros2_timestamp)
                     header.frame_id = 'result'  
                     image_msg = Image()  
-                    image_msg.header = header  
-                    image_msg.height = frame.shape[0]  
-                    image_msg.width = frame.shape[1]  
-                    image_msg.encoding = "bgr8" 
-                    image_msg.is_bigendian = 0  
-                    image_msg.step = frame.shape[1] * frame.shape[2]  
-                    image_msg.data = frame.tobytes() 
+                    image_msg.encoding = 'rgb8'            
+                    image_msg.header = header
+                    image_msg.height = frame.shape[0]
+                    image_msg.width = frame.shape[1]                
+                    image_msg.step = frame.shape[1] * frame.shape[2]
+                    image_msg.data = np.array(frame).tostring()
+
                     return image_msg
     def inference(self,frame):
          result=self.model(frame)
@@ -71,7 +71,7 @@ class YoloNode(Node):
   
                     # 发布ROS 2 Image消息  
                     self.image_publisher.publish(self.trans_to_ros(frame)) 
-                    self.points_publisher.publish(inference[1]) 
+                    self.points_publisher.publish(str(inference[1])) 
   
             except Exception as e:  
                 print("connect error",e)
