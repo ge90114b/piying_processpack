@@ -1,6 +1,6 @@
 import rclpy  
 from rclpy.node import Node  
-from rclpy.qos import qos_profile_sensor_data  
+from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy 
 from sensor_msgs.msg import Image  
 from std_msgs.msg import String  
 from cv_bridge import CvBridge  
@@ -11,17 +11,22 @@ class ImageAndPointsSubscriber(Node):
     def __init__(self):  
         super().__init__('backend')  
         self.bridge = CvBridge()  
+        qos_profile = QoSProfile(  
+            depth=10,           # 队列深度  
+            reliability=QoSReliabilityPolicy.BEST_EFFORT,  # 可靠性策略  
+            history=QoSHistoryPolicy.KEEP_LAST             # 历史记录策略  
+        ) 
         self.image_subscription = self.create_subscription(  
             Image,  
             'image/frame',  
             self.image_callback,  
-            qos_profile_sensor_data)  
+            qos_profile)  
   
         self.points_subscription = self.create_subscription(  
             String,  
             'points',  
             self.points_callback,  
-            10)  
+            qos_profile)  
   
     def image_callback(self, msg):  
         cv_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')  
