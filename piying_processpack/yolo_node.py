@@ -74,7 +74,6 @@ class YoloNode(Node):
                     # 发布ROS 2 Image消息  
                     publish_thread = threading.Thread(target=self.pub_img, args=(frame,))  
                     publish_thread.start()
-                    self.image_publisher.publish(self.trans_to_ros(frame)) 
                     points=String()
                     points.data=str(inference[1])
                     self.points_publisher.publish(points) 
