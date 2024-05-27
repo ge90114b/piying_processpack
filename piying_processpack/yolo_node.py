@@ -2,6 +2,7 @@ import rclpy
 from rclpy.node import Node  
 from sensor_msgs.msg import Image  
 from std_msgs.msg import String
+from std_msgs.msg import Header
 from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy 
 from ultralytics import YOLO
 import torch 
@@ -33,7 +34,8 @@ class YoloNode(Node):
         self.udp_thread.start()  
     def trans_to_ros(self,frame):
         # 将OpenCV图像转换为ROS 2 Image消息  
-                    header = self.create_timestamped_header()  
+                    header = Header(stamp=rclpy.Time.now())
+                    header.frame_id = 'result'  
                     image_msg = Image()  
                     image_msg.header = header  
                     image_msg.height = frame.shape[0]  
@@ -82,6 +84,5 @@ def main(args=None):
   
     node.shutdown()  
     rclpy.shutdown()  
-  
 if __name__ == '__main__':  
     main()
