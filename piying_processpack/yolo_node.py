@@ -71,7 +71,7 @@ class YoloNode(Node):
   
                     # 发布ROS 2 Image消息  
                     self.image_publisher.publish(self.trans_to_ros(frame)) 
-                    self.points_publisher.publish(str(inference[1])) 
+                    self.points_publisher.publish(String(str(inference[1]))) 
   
             except Exception as e:  
                 print("connect error",e)
