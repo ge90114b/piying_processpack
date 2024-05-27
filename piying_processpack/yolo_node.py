@@ -4,6 +4,7 @@ from sensor_msgs.msg import Image
 from std_msgs.msg import String
 from std_msgs.msg import Header
 from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy 
+from builtin_interfaces.msg import Time  
 from ultralytics import YOLO
 import torch 
 import socket  
@@ -34,8 +35,12 @@ class YoloNode(Node):
         self.udp_thread.daemon = True  
         self.udp_thread.start()  
     def trans_to_ros(self,frame):
-        # 将OpenCV图像转换为ROS 2 Image消息  
-                    header = Header(stamp=int(time.time()))
+        # 将OpenCV图像转换为ROS 2 Image消息
+                    now = time.time()  
+                    sec = int(now)  
+                    nsec = int((now - sec) * 1e9)  
+                    ros2_timestamp = Time(sec=sec, nanosec=nsec)  
+                    header = Header(stamp=ros2_timestamp)
                     header.frame_id = 'result'  
                     image_msg = Image()  
                     image_msg.header = header  
@@ -46,7 +51,7 @@ class YoloNode(Node):
                     image_msg.step = frame.shape[1] * frame.shape[2]  
                     image_msg.data = frame.tobytes() 
                     return image_msg
-    def interface(self,frame):
+    def inference(self,frame):
          result=self.model(frame)
          annotated_frame = result[0].plot() 
          keypoints = result[0].keypoints.xy.squeeze().tolist()
@@ -61,12 +66,12 @@ class YoloNode(Node):
                     frame_data = data[4:]  
                     frame = np.frombuffer(frame_data, dtype=np.uint8)  
                     frame = cv2.imdecode(frame, cv2.IMREAD_COLOR)  
-                    interface=self.interface(frame)
-                    frame=interface[0]
+                    inference=self.inference(frame)
+                    frame=inference[0]
   
                     # 发布ROS 2 Image消息  
                     self.image_publisher.publish(self.trans_to_ros(frame)) 
-                    self.points_publisher.publish(interface[1]) 
+                    self.points_publisher.publish(inference[1]) 
   
             except Exception as e:  
                 print("connect error",e)
