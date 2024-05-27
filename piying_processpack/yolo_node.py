@@ -2,7 +2,8 @@ import rclpy
 from rclpy.node import Node  
 from sensor_msgs.msg import Image  
 from std_msgs.msg import String
-from sensor_msgs.image_encodings import BGR8 
+from sensor_msgs.msg import Image as SensorImage  
+BGR8 = SensorImage().BGR8
 from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy 
 from ultralytics import YOLO
 import torch 

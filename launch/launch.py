@@ -5,7 +5,7 @@ def generate_launch_description():
     # 定义yolo节点  
     yolo_node = Node(  
         package='piying_processpack',  
-        executable='yolo_node',  
+        executable='yolo',  
         name='yolo_node',  
         
     )  
