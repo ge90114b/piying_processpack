@@ -5,7 +5,8 @@ from std_msgs.msg import String
 from std_msgs.msg import Header
 from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy 
 from cv_bridge import CvBridge
-from qtfrontend import *
+from piying_processpack.qtfrontend import *
+
 
 class QtFrontendNode(Node):
     def __init__(self):
