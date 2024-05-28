@@ -16,9 +16,9 @@ import threading
 class YoloNode(Node):  
     def __init__(self):  
         super().__init__('yolo_node')  
-        context = zmq.Context()
-        socket = context.socket(zmq.PULL)
-        socket.connect("tcp://192.168.10.10:5555")
+        self.context = zmq.Context()
+        self.socket = context.socket(zmq.PULL)
+        self.socket.connect("tcp://192.168.10.10:5555")
         self.model = YOLO('./model/yolov8n-pose.pt')
         qos_profile = QoSProfile(  
             depth=10,           # 队列深度  
@@ -30,7 +30,7 @@ class YoloNode(Node):
   
         # UDP监听线程  
   
-        self.udp_thread = threading.Thread(target=self.udp_listener)  
+        self.udp_thread = threading.Thread(target=self.zmq_listener)  
         self.udp_thread.daemon = True  
         self.udp_thread.start()  
     def trans_to_ros(self,frame):
@@ -58,7 +58,7 @@ class YoloNode(Node):
          return ret
     def pub_img(self,frame):
          self.image_publisher.publish(self.trans_to_ros(frame))
-    def udp_listener(self):  
+    def zmq_listener(self):  
         while rclpy.ok():  
             parts = socket.recv_multipart()
             print("Received message.")
