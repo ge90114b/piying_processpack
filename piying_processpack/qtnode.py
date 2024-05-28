@@ -32,7 +32,7 @@ class QtFrontendNode(Node):
 
 def main(args=None):
     rclpy.init(args=args)
-    node = MyNode()
+    node = QtFrontendNode()
     timer = QTimer()
     timer.timeout.connect(lambda: None)
     timer.start(1000 / 30)  # 每秒30帧
