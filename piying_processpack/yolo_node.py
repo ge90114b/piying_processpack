@@ -7,8 +7,8 @@ from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy
 from builtin_interfaces.msg import Time  
 from ultralytics import YOLO
 import torch 
-import socket  
-import struct  
+import zmq
+import json
 import numpy as np  
 import cv2  
 import time
@@ -16,10 +16,9 @@ import threading
 class YoloNode(Node):  
     def __init__(self):  
         super().__init__('yolo_node')  
-        self.UDP_IP = "0.0.0.0"  
-        self.UDP_PORT = 9999  
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  
-        self.sock.bind((self.UDP_IP, self.UDP_PORT))  
+        context = zmq.Context()
+        socket = context.socket(zmq.PULL)
+        socket.connect("tcp://192.168.10.10:5555")
         self.model = YOLO('./model/yolov8n-pose.pt')
         qos_profile = QoSProfile(  
             depth=10,           # 队列深度  
@@ -61,29 +60,36 @@ class YoloNode(Node):
          self.image_publisher.publish(self.trans_to_ros(frame))
     def udp_listener(self):  
         while rclpy.ok():  
-            try:  
-                data, addr = self.sock.recvfrom(65507)  
-                size = struct.unpack('i', data[:4])[0]  
-                if len(data) == size + 4:  
-                    frame_data = data[4:]  
-                    frame = np.frombuffer(frame_data, dtype=np.uint8)  
-                    frame = cv2.imdecode(frame, cv2.IMREAD_COLOR)  
-                    inference=self.inference(frame)
-                    frame=inference[0]
-                    new_width = int(frame.shape[1] / 2)  
-                    new_height = int(frame.shape[0] / 2)  
-                    resized_frame = cv2.resize(frame, (new_width, new_height), interpolation=cv2.INTER_LINEAR)
-  
+            parts = socket.recv_multipart()
+            print("Received message.")
+
+            header = parts[0]
+            frame_bytes = parts[1]
+
+            # 解析消息头获取帧大小
+            try:
+                size = json.loads(header.decode('utf-8'))['size']
+            except json.JSONDecodeError as e:
+                print(f"Error decoding JSON header: {e}")
+                continue
+
+            # 确保接收到了完整的帧
+            if len(frame_bytes) == size:
+                frame = np.frombuffer(frame_bytes, np.uint8)
+                frame = cv2.imdecode(frame, cv2.IMREAD_COLOR)
+                inference=self.inference(frame)
+                frame=inference[0]
+                new_width = int(frame.shape[1] / 2)  
+                new_height = int(frame.shape[0] / 2)  
+                resized_frame = cv2.resize(frame, (new_width, new_height), interpolation=cv2.INTER_LINEAR)
+
                     # 发布ROS 2 Image消息  
-                    publish_thread = threading.Thread(target=self.pub_img, args=(resized_frame,))  
-                    publish_thread.start()
-                    points=String()
-                    points.data=str(inference[1])
-                    self.points_publisher.publish(points) 
-  
-            except Exception as e:  
-                print("connect error",e)
-                self.get_logger().error(f'Error in UDP listener: {e}')  
+                publish_thread = threading.Thread(target=self.pub_img, args=(resized_frame,))  
+                publish_thread.start()
+                points=String()
+                points.data=str(inference[1])
+                self.points_publisher.publish(points) 
+
 
     def shutdown(self):  
         self.sock.close()  
