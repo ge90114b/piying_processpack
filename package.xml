@@ -5,7 +5,7 @@
   <description>Piyingbot process package</description>  
   
   <maintainer email="ge90114b@outlook.com">ge90114b</maintainer>  
-  
+  <maintainer email="bugbugbug321@163.com">321bug</maintainer> 
   <license>Apache-2.0</license>  
   
   <depend>rclpy</depend> 

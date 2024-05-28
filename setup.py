@@ -21,7 +21,8 @@ setup(
     entry_points={
         'console_scripts': [
             'yolo=piying_processpack.yolo_node:main',
-            'frontend=piying_processpack.frontend:main'
+            'frontend=piying_processpack.frontend:main',
+            'qtfrontend=piying_processpack.qtnode:main'
         ],
     },
 )

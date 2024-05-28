@@ -1,5 +1,4 @@
 import rclpy  
-from PyQt5.QtWidgets import QApplication
 from rclpy.node import Node  
 from sensor_msgs.msg import Image  
 from std_msgs.msg import String
