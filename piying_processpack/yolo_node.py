@@ -75,7 +75,8 @@ class YoloNode(Node):
                 print(f"Error decoding JSON header: {e}")
                 continue
             if abs(timestamp-time.time())>1:
-                 continue
+                print("drop the frame")
+                continue
             # 确保接收到了完整的帧
             if len(frame_bytes) == size:
                 frame = np.frombuffer(frame_bytes, np.uint8)
