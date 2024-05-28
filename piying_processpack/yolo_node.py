@@ -60,7 +60,7 @@ class YoloNode(Node):
          self.image_publisher.publish(self.trans_to_ros(frame))
     def zmq_listener(self):  
         while rclpy.ok():  
-            parts = socket.recv_multipart()
+            parts = self.socket.recv_multipart()
             print("Received message.")
 
             header = parts[0]
