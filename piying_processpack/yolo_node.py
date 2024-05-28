@@ -71,6 +71,7 @@ class YoloNode(Node):
                 header_dict = json.loads(header.decode('utf-8'))  
                 size = header_dict['size']  
                 timestamp = header_dict['timestamp']
+                timestamp=float(timestamp)
             except json.JSONDecodeError as e:
                 print(f"Error decoding JSON header: {e}")
                 continue
