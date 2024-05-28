@@ -6,6 +6,11 @@ from std_msgs.msg import Header
 from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy 
 from cv_bridge import CvBridge
 from piying_processpack.qtfrontend import *
+from PyQt5.QtWidgets import QApplication
+import sys
+
+app = QApplication(sys.argv)
+
 
 
 class QtFrontendNode(Node):
