@@ -7,7 +7,7 @@ setup(
     version='0.0.1',
     packages=[package_name],
     package_data={
-        'qtfrontend':'piying_processpack/qtfrontend.py'
+        'qtfrontend': ['piying_processpack/qtfrontend.py']
     },
     data_files=[
         ('share/ament_index/resource_index/packages',
