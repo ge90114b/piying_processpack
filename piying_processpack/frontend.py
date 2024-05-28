@@ -28,7 +28,8 @@ class ImageAndPointsSubscriber(Node):
             String,  
             'points',  
             self.points_callback,  
-            qos_profile)  
+            qos_profile) 
+         
   
     def image_callback(self, msg):  
         global cv_image
