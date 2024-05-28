@@ -68,11 +68,14 @@ class YoloNode(Node):
 
             # 解析消息头获取帧大小
             try:
-                size = json.loads(header.decode('utf-8'))['size']
+                header_dict = json.loads(header.decode('utf-8'))  
+                size = header_dict['size']  
+                timestamp = header_dict['timestamp']
             except json.JSONDecodeError as e:
                 print(f"Error decoding JSON header: {e}")
                 continue
-
+            if abs(timestamp-time.time())>1:
+                 continue
             # 确保接收到了完整的帧
             if len(frame_bytes) == size:
                 frame = np.frombuffer(frame_bytes, np.uint8)
