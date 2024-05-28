@@ -17,7 +17,7 @@ class YoloNode(Node):
     def __init__(self):  
         super().__init__('yolo_node')  
         self.context = zmq.Context()
-        self.socket = context.socket(zmq.PULL)
+        self.socket = self.context.socket(zmq.PULL)
         self.socket.connect("tcp://192.168.10.10:5555")
         self.model = YOLO('./model/yolov8n-pose.pt')
         qos_profile = QoSProfile(  
