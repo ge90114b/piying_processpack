@@ -67,10 +67,16 @@ class Ui_MainWindow(object):
     # retranslateUi
 
     #openCV显示主函数
-    def ShowCV(self,cv_image):
-        _image = QtGui.QImage(cv_image[:], cv_image[1], cv_image[0], cv_image[1] * 3, QtGui.QImage.Format_RGB888) #pyqt5转换成自己能放的图片格式
-        jpg_out = QtGui.QPixmap(_image).scaled(self.label.width(), self.label.height()) #设置图片大小
-        self.label.setPixmap(jpg_out) #设置图片显示
+    def ShowCV(self, cv_image):  
+    # 将OpenCV的BGR图像转换为Qt的QImage（需要RGB格式）  
+        height, width, channel = cv_image.shape  
+        bytes_per_line = 3 * width  # RGB图像，每像素3个字节  
+        qt_image = QImage(cv_image.data, width, height, bytes_per_line, QImage.Format_RGB888).rgbSwapped()  
+    
+        # 创建QPixmap对象，并设置QLabel  
+        pixmap = QPixmap.fromImage(qt_image)  
+        scaled_pixmap = pixmap.scaled(self.label.width(), self.label.height(), Qt.KeepAspectRatio, Qt.SmoothTransformation)  
+        self.label.setPixmap(scaled_pixmap) 
         QApplication.processEvents()
 
 
@@ -99,7 +105,6 @@ class QtFrontendNode(Node):
 def main(args=None):
     rclpy.init(args=args)
     node = QtFrontendNode()
-    timer = QTimer()
     rclpy.spin(node)
     node.destroy_node()
     rclpy.shutdown()
