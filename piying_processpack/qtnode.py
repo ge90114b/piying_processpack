@@ -76,7 +76,7 @@ class Ui_MainWindow(object):
 
 class QtFrontendNode(Node):
     def __init__(self):
-        super().__init__('my_node')
+        super().__init__('qtfrontend')
         self.ui = Ui_MainWindow()
         self.widget = QMainWindow()
         self.ui.setupUi(self.widget)
@@ -100,8 +100,6 @@ def main(args=None):
     rclpy.init(args=args)
     node = QtFrontendNode()
     timer = QTimer()
-    timer.timeout.connect(lambda: None)
-    timer.start(1000 / 30)  # 每秒30帧
     rclpy.spin(node)
     node.destroy_node()
     rclpy.shutdown()
