@@ -14,7 +14,7 @@ setup(
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
     ],
-    install_requires=['setuptools','opencv-python','torch','ultralytics','numpy','pyzmq','tornado'],
+    install_requires=['setuptools','opencv-python','torch','ultralytics','numpy','pyzmq','tornado','PyQt5'],
     zip_safe=False,
     maintainer='ge90114b',
     maintainer_email='ge90114b@outlook.com',
