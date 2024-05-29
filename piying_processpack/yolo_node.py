@@ -72,11 +72,12 @@ class YoloNode(Node):
                 size = header_dict['size']  
                 timestamp = header_dict['timestamp']
                 timestamp=float(timestamp)
+                nowtime=time.time()
             except json.JSONDecodeError as e:
                 print(f"Error decoding JSON header: {e}")
                 continue
-            if abs(timestamp-time.time())>0.1:
-                print("drop the frame")
+            if abs(timestamp-nowtime)>0.1:
+                print("drop the frame",timestamp,nowtime)
                 continue
             # 确保接收到了完整的帧
             if len(frame_bytes) == size:
