@@ -17,9 +17,16 @@ def generate_launch_description():
         name='frontend_node',  
         
     )  
+    qt_frontend_node = Node(  
+        package='piying_processpack',  
+        executable='qtfrontend',  
+        name='qtfrontend_node',  
+        
+    ) 
       
     
     return LaunchDescription([  
         yolo_node,  
-        frontend_node,  
+        frontend_node, 
+        qt_frontend_node 
     ])

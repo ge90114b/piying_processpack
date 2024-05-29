@@ -1,5 +1,5 @@
 from setuptools import setup
- 
+from glob import glob
 package_name = 'piying_processpack'
  
 setup(
@@ -13,6 +13,7 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        ('share/' + package_name, glob("launch/*.launch.py"))
     ],
     install_requires=['setuptools','opencv-python','torch','ultralytics','numpy','pyzmq','tornado','PyQt5'],
     zip_safe=False,
