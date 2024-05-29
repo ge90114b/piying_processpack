@@ -14,41 +14,78 @@ import sys
 
 app = QApplication(sys.argv)
 
+#designer自动生成代码由 class Ui_MainWindow(object): 到 # retranslateUi，这一部分代码会因ui变化而反复被替代，建议全局变量不要写进setupUi内，可以再设一个class存储所有的全局变量
+#按钮加事件用 self.对象.clicked.connect(函数)
 class Ui_MainWindow(object):
-    #UI显示 目前没做窗口位置固定
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(832, 599)
+        MainWindow.resize(597, 393)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
+        self.gridLayout = QGridLayout(self.centralwidget)
+        self.gridLayout.setObjectName(u"gridLayout")
+        self.line = QFrame(self.centralwidget)
+        self.line.setObjectName(u"line")
+        self.line.setFrameShape(QFrame.VLine)
+        self.line.setFrameShadow(QFrame.Sunken)
+
+        self.gridLayout.addWidget(self.line, 0, 1, 1, 1)
+
+        self.verticalLayout_2 = QVBoxLayout()
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        #录制 按钮
+        self.record = QPushButton(self.centralwidget)
+        self.record.setObjectName(u"record")
+
+        self.verticalLayout_2.addWidget(self.record)
+        #结束录制 按钮
+        self.end_record = QPushButton(self.centralwidget)
+        self.end_record.setObjectName(u"end_record")
+
+        self.verticalLayout_2.addWidget(self.end_record)
+
+        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout_2.addItem(self.verticalSpacer)
+        #播放 按钮
+        self.play = QPushButton(self.centralwidget)
+        self.play.setObjectName(u"play")
+
+        self.verticalLayout_2.addWidget(self.play)
+        #停止播放 按钮
+        self.end_play = QPushButton(self.centralwidget)
+        self.end_play.setObjectName(u"end_play")
+
+        self.verticalLayout_2.addWidget(self.end_play)
+
+
+        self.gridLayout.addLayout(self.verticalLayout_2, 0, 2, 1, 1)
+        #opencv视窗
         self.label = QLabel(self.centralwidget)
         self.label.setObjectName(u"label")
-        self.label.setGeometry(QRect(10, -10, 781, 581))
-        self.horizontalLayoutWidget = QWidget(self.centralwidget)
-        self.horizontalLayoutWidget.setObjectName(u"horizontalLayoutWidget")
-        self.horizontalLayoutWidget.setGeometry(QRect(0, 500, 801, 71))
-        self.horizontalLayout = QHBoxLayout(self.horizontalLayoutWidget)
-        self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
-        self.pushButton = QPushButton(self.horizontalLayoutWidget)
-        self.pushButton.setObjectName(u"pushButton")   #按钮1
 
-        self.horizontalLayout.addWidget(self.pushButton)
+        self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
+        #界面右下角提交 按钮
+        self.summit = QPushButton(self.centralwidget)
+        self.summit.setObjectName(u"summit")
 
-        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.gridLayout.addWidget(self.summit, 1, 2, 1, 1)
+        #界面下方 输入条
+        self.lineEdit = QLineEdit(self.centralwidget)
+        self.lineEdit.setObjectName(u"lineEdit")
+#if QT_CONFIG(statustip)
+        self.lineEdit.setStatusTip(u"")
+#endif // QT_CONFIG(statustip)
+        self.lineEdit.setAutoFillBackground(False)
 
-        self.horizontalLayout.addItem(self.horizontalSpacer)
+        self.gridLayout.addWidget(self.lineEdit, 1, 0, 1, 1)
 
-        self.pushButton_2 = QPushButton(self.horizontalLayoutWidget)
-        self.pushButton_2.setObjectName(u"pushButton_2")   #按钮2
-
-        self.horizontalLayout.addWidget(self.pushButton_2)
-
+        self.gridLayout.setColumnStretch(0, 6)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 832, 22))
+        self.menubar.setGeometry(QRect(0, 0, 597, 22))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -61,9 +98,24 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
+#if QT_CONFIG(statustip)
+        MainWindow.setStatusTip("")
+#endif // QT_CONFIG(statustip)
+        #要改按钮文字直接在这里改
+        self.record.setText(QCoreApplication.translate("MainWindow", u"\u5f55\u5236", None))
+        self.end_record.setText(QCoreApplication.translate("MainWindow", u"\u7ed3\u675f\u5f55\u5236", None))
+        self.play.setText(QCoreApplication.translate("MainWindow", u"\u64ad\u653e", None))
+        self.end_play.setText(QCoreApplication.translate("MainWindow", u"\u505c\u6b62\u64ad\u653e", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"opencvLabel", None))
-        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
-        self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
+        self.summit.setText(QCoreApplication.translate("MainWindow", u"\u63d0\u4ea4\u8868\u5355", None))
+#if QT_CONFIG(tooltip)
+        self.lineEdit.setToolTip(QCoreApplication.translate("MainWindow", u"sss", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(whatsthis)
+        self.lineEdit.setWhatsThis("")
+#endif // QT_CONFIG(whatsthis)
+        self.lineEdit.setText("")
+        self.lineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u7c98\u8d34\u8def\u5f84\u4ee5\u53d1\u9001\u81f3topic", None))
     # retranslateUi
 
     #openCV显示主函数
