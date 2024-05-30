@@ -68,7 +68,7 @@ class Ui_MainWindow(object):
         self.end_play.setObjectName(u"end_play")
 
         self.verticalLayout_2.addWidget(self.end_play)
-        self.endplay.clicked.connect(lambda: self.endplaybut.emit())
+        self.end_play.clicked.connect(lambda: self.endplaybut.emit())
 
 
         self.gridLayout.addLayout(self.verticalLayout_2, 0, 2, 1, 1)
