@@ -38,6 +38,7 @@ class Ui_MainWindow(object):
         self.record = QPushButton(self.centralwidget)
         self.record.setObjectName(u"record")
 
+
         self.verticalLayout_2.addWidget(self.record)
         #结束录制 按钮
         self.end_record = QPushButton(self.centralwidget)
@@ -53,11 +54,13 @@ class Ui_MainWindow(object):
         self.play.setObjectName(u"play")
 
         self.verticalLayout_2.addWidget(self.play)
+        self.play.clicked.connect(QtFrontendNode.play("start"))
         #停止播放 按钮
         self.end_play = QPushButton(self.centralwidget)
         self.end_play.setObjectName(u"end_play")
 
         self.verticalLayout_2.addWidget(self.end_play)
+        self.end_play.clicked.connect(QtFrontendNode.play("stop"))
 
 
         self.gridLayout.addLayout(self.verticalLayout_2, 0, 2, 1, 1)
@@ -154,11 +157,11 @@ class QtFrontendNode(Node):
         self.recpub=self.create_publisher(String,'rec',qos_profile)
         self.filepub=self.create_publisher(String,'filedir',qos_profile)
 
-        self.ui.play.clicked.connect(lambda : self.playpub.publish(String(data="start")))
-        self.ui.end_play.clicked.connect(lambda : self.playpub.publish(String(data="stop")))
-        self.ui.record.clicked.connect(lambda : self.recpub.publish(String(data="start")))
-        self.ui.end_record.connect(lambda : self.recpub.publish(String(data="stop")))
-        self.ui.summit.connect(lambda : self.filepub.publish(String(data = self.ui.lineEdit.text())))
+        # self.ui.play.clicked.connect(lambda : self.playpub.publish(String(data="start")))
+        # self.ui.end_play.clicked.connect(lambda : self.playpub.publish(String(data="stop")))
+        # self.ui.record.clicked.connect(lambda : self.recpub.publish(String(data="start")))
+        # self.ui.end_record.connect(lambda : self.recpub.publish(String(data="stop")))
+        # self.ui.summit.connect(lambda : self.filepub.publish(String(data = self.ui.lineEdit.text())))
 
     def image_callback(self, msg):
         cv_image = self.bridge.imgmsg_to_cv2(msg, "bgr8")#接受图片topic并转为opencv
