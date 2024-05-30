@@ -166,7 +166,7 @@ class QtFrontendNode(Node):
         self.recpub=self.create_publisher(String,'rec',qos_profile)
         self.filepub=self.create_publisher(String,'filedir',qos_profile)
 
-        self.ui.play.clicked.connect(lambda : self.playpub(String(data="start")))
+        self.ui.play.clicked.connect(lambda : self.play(msg="start"))
     def clicked(self):  
             # 处理按钮点击事件  
         print("CLICKED")
