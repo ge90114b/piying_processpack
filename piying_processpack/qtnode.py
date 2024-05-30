@@ -17,7 +17,7 @@ app = QApplication(sys.argv)
 #designer自动生成代码由 class Ui_MainWindow(object): 到 # retranslateUi，这一部分代码会因ui变化而反复被替代，建议全局变量不要写进setupUi内，可以再设一个class存储所有的全局变量
 #按钮加事件用 self.对象.clicked.connect(函数)
 class Ui_MainWindow(object):
-    playbut = pyqtSignal()
+    playbut = pyqtSignal(bool)
     endplaybut = pyqtSignal()
     recbut = pyqtSignal()
     endrecbut = pyqtSignal()
@@ -61,7 +61,7 @@ class Ui_MainWindow(object):
         self.play.setObjectName(u"play")
 
         self.verticalLayout_2.addWidget(self.play)
-        self.play.clicked.connect(lambda: self.playbut.emit())
+        self.play.clicked.connect(lambda: self.playbut.emit(True))
 
         #停止播放 按钮
         self.end_play = QPushButton(self.centralwidget)
