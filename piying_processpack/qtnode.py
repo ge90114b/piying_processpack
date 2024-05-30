@@ -152,6 +152,7 @@ class Ui_MainWindow(object):
         self.lineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u7c98\u8d34\u8def\u5f84\u4ee5\u53d1\u9001\u81f3topic", None))
         self.summit.setText(QCoreApplication.translate("MainWindow", u"\u63d0\u4ea4\u8868\u5355", None))
     # retranslateUi
+        self.pixmap = QPixmap() 
 
     #openCV显示主函数
     def ShowCV(self, cv_image):  
@@ -161,8 +162,8 @@ class Ui_MainWindow(object):
         qt_image = QImage(cv_image.data, width, height, bytes_per_line, QImage.Format_RGB888).rgbSwapped()  
     
         # 创建QPixmap对象，并设置QLabel  
-        pixmap = QPixmap.fromImage(qt_image)  
-        scaled_pixmap = pixmap.scaled(self.label.width(), self.label.height(), Qt.KeepAspectRatio, Qt.SmoothTransformation)  
+        self.pixmap = QPixmap.fromImage(qt_image)  
+        scaled_pixmap = self.pixmap.scaled(self.label.width(), self.label.height(), Qt.KeepAspectRatio, Qt.SmoothTransformation)  
         self.label.setPixmap(scaled_pixmap) 
         QApplication.processEvents()
     def setStatueText(self, text: str):  #更新状态栏
