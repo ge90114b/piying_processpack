@@ -108,6 +108,7 @@ class CoreNode(Node):
         left_hand=points[9]
         right_hand=points[10]
         print(nose,centpoint,left_hand,right_hand)
+        return "\n正在捕捉"
 
 
 def main(args=None):
