@@ -34,6 +34,10 @@ class CoreNode(Node):
             String,  
             'points',  
             self.points_callback, qos_profile) #创建点位subscriber
+        self.mode_subscription = self.create_subscription(  
+            String,  
+            'mode',  
+            self.mode_callback, qos_profile) #创建模式subscriber
         self.action_publisher = self.create_publisher(String, 'action', qos_profile) 
         self.process_thr=threading.Thread(target=self.process_thread)
         self.process_thr.daemon=True
@@ -56,8 +60,27 @@ class CoreNode(Node):
         while True:
             if play =='stop':
                 continue
-            print(point)
-        
+            
+            self.processcore(points=point)
+    def processcore(self,points):#点位信息转化
+        for i1 in [0,5,6,9,10]:
+            for i2 in [0,1]:
+                if points[i1][i2]==0:
+                    bad=True
+                    break
+            if bad:
+                break
+        if not bad:
+            nose=points[0]
+            left_shoulder=points[5]
+            right_shoulder=points[6]
+            centpoint=[]
+            for pos in [0,1]:
+                centpoint[pos]=(left_shoulder[pos]+right_shoulder[pos])/2
+                
+            left_hand=points[9]
+            right_hand=points[10]
+
 
 
 
