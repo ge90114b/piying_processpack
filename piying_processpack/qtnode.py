@@ -193,7 +193,7 @@ class QtFrontendNode(Node):
         self.statsubscription = self.create_subscription(
             String,
             'stat', 
-            lambda msg: self.ui.setStatueText(msg.data), qos_profile)#创建图片subscriber
+            self.stat_callback, qos_profile)#创建图片subscriber
         
         self.playpub=self.create_publisher(String,'play',qos_profile)#为开始按钮、文件名、录制按钮创建发布者
         self.recpub=self.create_publisher(String,'rec',qos_profile)
@@ -213,6 +213,7 @@ class QtFrontendNode(Node):
         self.ui.ShowCV(cv_image)
     def stat_callback(self,msg):
         stat=msg.data
+        print(stat)
         self.ui.setStatueText(stat)
     def play(self,msg):#控制是否开始
         ctlmsg=String()
