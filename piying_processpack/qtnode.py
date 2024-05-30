@@ -17,11 +17,6 @@ app = QApplication(sys.argv)
 #designer自动生成代码由 class Ui_MainWindow(object): 到 # retranslateUi，这一部分代码会因ui变化而反复被替代，建议全局变量不要写进setupUi内，可以再设一个class存储所有的全局变量
 #按钮加事件用 self.对象.clicked.connect(函数)
 class Ui_MainWindow(object):
-    playbut = pyqtSignal()
-    endplaybut = pyqtSignal()
-    recbut = pyqtSignal()
-    endrecbut = pyqtSignal()
-    submit = pyqtSignal()
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
@@ -45,7 +40,7 @@ class Ui_MainWindow(object):
 
 
         self.verticalLayout_2.addWidget(self.record)
-        self.record.clicked.connect(lambda: self.recbut.emit())
+
         #结束录制 按钮
         self.end_record = QPushButton(self.centralwidget)
         self.end_record.setObjectName(u"end_record")
@@ -55,20 +50,20 @@ class Ui_MainWindow(object):
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.verticalLayout_2.addItem(self.verticalSpacer)
-        self.end_record.clicked.connect(lambda: self.endrecbut.emit())
+
         #播放 按钮
         self.play = QPushButton(self.centralwidget)
         self.play.setObjectName(u"play")
 
         self.verticalLayout_2.addWidget(self.play)
-        self.play.clicked.connect(lambda: self.playbut.emit(True))
+
 
         #停止播放 按钮
         self.end_play = QPushButton(self.centralwidget)
         self.end_play.setObjectName(u"end_play")
 
         self.verticalLayout_2.addWidget(self.end_play)
-        self.end_play.clicked.connect(lambda: self.endplaybut.emit())
+
 
 
         self.gridLayout.addLayout(self.verticalLayout_2, 0, 2, 1, 1)
@@ -167,17 +162,10 @@ class QtFrontendNode(Node):
         self.filepub=self.create_publisher(String,'filedir',qos_profile)
 
         self.ui.play.clicked.connect(lambda : self.play(msg="start"))
-    def clicked(self):  
-            # 处理按钮点击事件  
-        print("CLICKED")
-        msg = String()  
-        msg.data = "start"  
-        self.pub.publish(msg) 
-        # self.ui.playbut.connect(lambda : self.playpub.publish(String(data="start")))
-        # self.ui.endplaybut.connect(lambda : self.playpub.publish(String(data="stop")))
-        # self.ui.recbut.connect(lambda : self.recpub.publish(String(data="start")))
-        # self.ui.endrecbut.connect(lambda : self.recpub.publish(String(data="stop")))
-        # self.ui.submit.connect(lambda : self.filepub.publish(String(data = self.ui.lineEdit.text())))
+        self.ui.end_play.clicked.connect(lambda : self.play(msg="stop"))
+        self.ui.record.clicked.connect(lambda : self.rec(msg="start"))
+        self.ui.end_record.clicked.connect(lambda : self.rec(msg="stop"))
+        self.ui.summit.clicked.connect(lambda : self.filedir())
 
     def image_callback(self, msg):
         cv_image = self.bridge.imgmsg_to_cv2(msg, "bgr8")#接受图片topic并转为opencv

@@ -3,11 +3,13 @@ from rclpy.node import Node
 from std_msgs.msg import String
 from std_msgs.msg import Header
 from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy 
+import threading
+import time
 
 play='stop'
 rec="stop"
 filedir=''
-
+point=''
 class CoreNode(Node):
     def __init__(self):
         super().__init__('CoreNode')
@@ -32,23 +34,29 @@ class CoreNode(Node):
             String,  
             'points',  
             self.points_callback, qos_profile) #创建点位subscriber
+        self.action_publisher = self.create_publisher(String, 'action', qos_profile) 
+        self.process_thr=threading.Thread(target=self.process_thread)
+        self.process_thr.daemon=True
+        self.process_thr.start()
         
     def play_callback(self,msg):
         global play
         print(msg.data)
         play=msg.data
     def rec_callback(self,msg):
-        global play
-        play=msg.data
+        global rec
+        rec=msg.data
     def dir_callback(self,msg):
-        global play
-        play=msg.data
+        global dir
+        dir=msg.data
     def points_callback(self,msg):
-        global play
-        play=msg.data
+        global point
+        point=msg.data
     def process_thread(self):
-        while play=='start':
-            print("start")
+        while True:
+            if play =='stop':
+                continue
+            print(point)
         
 
 
