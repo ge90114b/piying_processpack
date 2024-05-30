@@ -193,7 +193,7 @@ class QtFrontendNode(Node):
         self.statsubscription = self.create_subscription(
             String,
             'stat', 
-            lambda msg: self.ui.setStatueText(msg), qos_profile)#创建图片subscriber
+            lambda msg: self.ui.setStatueText(msg.data), qos_profile)#创建图片subscriber
         
         self.playpub=self.create_publisher(String,'play',qos_profile)#为开始按钮、文件名、录制按钮创建发布者
         self.recpub=self.create_publisher(String,'rec',qos_profile)
@@ -211,6 +211,9 @@ class QtFrontendNode(Node):
     def image_callback(self, msg):
         cv_image = self.bridge.imgmsg_to_cv2(msg, "bgr8")#接受图片topic并转为opencv
         self.ui.ShowCV(cv_image)
+    def stat_callback(self,msg):
+        stat=msg.data
+        self.ui.setStatueText(stat)
     def play(self,msg):#控制是否开始
         ctlmsg=String()
         ctlmsg.data=str(msg)

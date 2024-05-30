@@ -85,10 +85,14 @@ class CoreNode(Node):
                     msg+='\n未选择有效文件'
             self.pubact(msg=msg)                
     def processcore(self,points):#点位信息转化
-        for i1 in [0,5,6,9,10]:
-            for i2 in [0,1]:
-                if points[i1][i2]==0:
-                    return "\n未识别到有效人体关键点！"
+        try:
+            for i1 in [0,5,6,9,10]:
+                for i2 in [0,1]:
+                    if points[i1][i2]==0:
+                        return "\n未识别到有效人体关键点！"
+        except :
+            return '\nerror'
+
         
         nose=points[0]
         left_shoulder=points[5]
