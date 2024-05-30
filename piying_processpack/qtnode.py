@@ -145,15 +145,37 @@ class QtFrontendNode(Node):
             reliability=QoSReliabilityPolicy.BEST_EFFORT,  # 可靠性策略  
             history=QoSHistoryPolicy.KEEP_LAST             # 历史记录策略  
         ) 
-        self.subscription = self.create_subscription(
+        self.imgsubscription = self.create_subscription(
             Image,
             'image/frame', 
-            self.image_callback, qos_profile)
+            self.image_callback, qos_profile)#创建图片subscriber
+        
+        self.playpub=self.create_publisher(String,'play',qos_profile)#为开始按钮、文件名、录制按钮创建发布者
+        self.recpub=self.create_publisher(String,'rec',qos_profile)
+        self.filepub=self.create_publisher(String,'filedir',qos_profile)
+
+        self.ui.play.clicked.connect(self.play("start"))
+        self.ui.end_play.clicked.connect(self.play("stop"))
+        self.ui.record.clicked.connect(self.rec("start"))
+        self.ui.end_record.connect(self.rec("stop"))
+        self.ui.summit.connect(self.filedir())
 
     def image_callback(self, msg):
-        cv_image = self.bridge.imgmsg_to_cv2(msg, "bgr8")
+        cv_image = self.bridge.imgmsg_to_cv2(msg, "bgr8")#接受图片topic并转为opencv
         self.ui.ShowCV(cv_image)
-
+    def play(self,msg):#控制是否开始
+        ctlmsg=String()
+        ctlmsg.data=str(msg)
+        self.playpub.publish(ctlmsg)
+    def rec(self,msg):#控制是否开始
+        ctlmsg=String()
+        ctlmsg.data=str(msg)
+        self.recpub.publish(ctlmsg)
+    def filedir(self):#传递动作文件目录
+        dir = self.ui.lineEdit.text()
+        msg=String()
+        msg.data=dir
+        self.filepub.publish(msg)
 def main(args=None):
     rclpy.init(args=args)
     node = QtFrontendNode()

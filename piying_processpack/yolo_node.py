@@ -18,7 +18,9 @@ class YoloNode(Node):
         super().__init__('yolo_node')  
         context = zmq.Context()
         self.socket = context.socket(zmq.PULL)
+        print("connecting...")
         self.socket.connect("tcp://192.168.10.10:5555")
+        print("loading model...")
         self.model = YOLO('./model/yolov8n-pose.pt')
         qos_profile = QoSProfile(  
             depth=10,           # 队列深度  
@@ -50,13 +52,13 @@ class YoloNode(Node):
                     image_msg.data = np.array(frame).tostring()
 
                     return image_msg
-    def inference(self,frame):
+    def inference(self,frame):#推理图片
          result=self.model(frame)
          annotated_frame = result[0].plot() 
          keypoints = result[0].keypoints.xy.squeeze().tolist()
          ret=[annotated_frame,keypoints]
          return ret
-    def pub_img(self,frame):
+    def pub_img(self,frame):#发布图片
          self.image_publisher.publish(self.trans_to_ros(frame))
     def zmq_listener(self):  
         while rclpy.ok():  
