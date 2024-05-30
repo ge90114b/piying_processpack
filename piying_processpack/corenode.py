@@ -18,7 +18,7 @@ class CoreNode(Node):
         self.playsubscription = self.create_subscription(
             String,
             'play', 
-            lambda msg: (global play ; play=msg.data), qos_profile)#创建启动控制subscriber
+            self.play_callback, qos_profile)#创建启动控制subscriber
         self.recsubscription = self.create_subscription(
             String,
             'rec', 

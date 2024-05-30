@@ -154,11 +154,11 @@ class QtFrontendNode(Node):
         self.recpub=self.create_publisher(String,'rec',qos_profile)
         self.filepub=self.create_publisher(String,'filedir',qos_profile)
 
-        self.ui.play.clicked.connect(lambda:self.play("start"))
-        self.ui.end_play.clicked.connect(lambda:self.play("stop"))
-        self.ui.record.clicked.connect(lambda:self.rec("start"))
-        self.ui.end_record.connect(lambda:self.rec("stop"))
-        self.ui.summit.connect(lambda:self.filedir())
+        self.ui.play.clicked.connect(lambda : self.playpub.publish(String(data="start")))
+        self.ui.end_play.clicked.connect(lambda : self.playpub.publish(String(data="stop")))
+        self.ui.record.clicked.connect(lambda : self.recpub.publish(String(data="start")))
+        self.ui.end_record.connect(lambda : self.recpub.publish(String(data="stop")))
+        self.ui.summit.connect(lambda : self.filepub.publish(String(data = self.ui.lineEdit.text())))
 
     def image_callback(self, msg):
         cv_image = self.bridge.imgmsg_to_cv2(msg, "bgr8")#接受图片topic并转为opencv
