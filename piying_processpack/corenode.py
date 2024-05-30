@@ -103,7 +103,7 @@ class CoreNode(Node):
         nose=points[0]
         left_shoulder=points[5]
         right_shoulder=points[6]
-        centpoint=[]
+        centpoint=[0,0]
         for pos in [0,1]:
             centpoint[pos]=(left_shoulder[pos]+right_shoulder[pos])/2
                 
