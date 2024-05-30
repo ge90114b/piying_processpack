@@ -4,7 +4,8 @@ from std_msgs.msg import String
 from std_msgs.msg import Header
 from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy 
 
-rec,play='stop'
+play='stop'
+rec="stop"
 filedir=''
 
 class CoreNode(Node):
