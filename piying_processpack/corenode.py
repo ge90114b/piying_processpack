@@ -70,11 +70,9 @@ class CoreNode(Node):
     def pubact(self,msg):#发布动作
         ctlmsg=String()
         ctlmsg.data=str(msg)
-        print(msg)
         self.action_publisher.publish(ctlmsg)
     def process_thread(self):
         while True:
-            print("\n\n\n\n",point,"\n\n\n\n")
             msg=''
             if play =='stop':
                 self.pubstat(msg="停止中") 
