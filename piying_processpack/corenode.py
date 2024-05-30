@@ -5,6 +5,7 @@ from std_msgs.msg import Header
 from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy 
 import threading
 import time
+import json
 
 play='stop'
 rec="stop"
@@ -58,7 +59,7 @@ class CoreNode(Node):
         
     def points_callback(self,msg):
         global point
-        point=list(msg.data)
+        point=json.loads(msg.data)
     def mode_callback(self,msg):
         global mode
         mode=msg.data
@@ -88,7 +89,6 @@ class CoreNode(Node):
                     continue
             self.pubstat(msg=msg)                
     def processcore(self,points):#点位信息转化
-        points=list(points)
         print(points)
         try:
             for i1 in [0,5,6,9,10]:
