@@ -34,6 +34,7 @@ class CoreNode(Node):
         
     def play_callback(self,msg):
         global play
+        print(msg.data)
         play=msg.data
     def rec_callback(self,msg):
         global play
