@@ -166,11 +166,19 @@ class QtFrontendNode(Node):
         self.recpub=self.create_publisher(String,'rec',qos_profile)
         self.filepub=self.create_publisher(String,'filedir',qos_profile)
 
-        self.ui.playbut.connect(lambda : self.playpub.publish(String(data="start")))
-        self.ui.endplaybut.connect(lambda : self.playpub.publish(String(data="stop")))
-        self.ui.recbut.connect(lambda : self.recpub.publish(String(data="start")))
-        self.ui.endrecbut.connect(lambda : self.recpub.publish(String(data="stop")))
-        self.ui.submit.connect(lambda : self.filepub.publish(String(data = self.ui.lineEdit.text())))
+        self.ui.play.clicked.connect(self.on_play_button_clicked)
+    @pyqtSlot
+    def on_play_button_clicked(self):  
+            # 处理按钮点击事件  
+        print("CLICKED")
+        msg = String()  
+        msg.data = "start"  
+        self.pub.publish(msg) 
+        # self.ui.playbut.connect(lambda : self.playpub.publish(String(data="start")))
+        # self.ui.endplaybut.connect(lambda : self.playpub.publish(String(data="stop")))
+        # self.ui.recbut.connect(lambda : self.recpub.publish(String(data="start")))
+        # self.ui.endrecbut.connect(lambda : self.recpub.publish(String(data="stop")))
+        # self.ui.submit.connect(lambda : self.filepub.publish(String(data = self.ui.lineEdit.text())))
 
     def image_callback(self, msg):
         cv_image = self.bridge.imgmsg_to_cv2(msg, "bgr8")#接受图片topic并转为opencv
