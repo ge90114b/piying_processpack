@@ -74,7 +74,7 @@ class CoreNode(Node):
     def process_thread(self):
         while True:
             msg=''
-            print(play )
+            print(play,mode)
             if play =='stop':
                 self.pubact(msg="停止中") 
                 continue
