@@ -54,7 +54,7 @@ class Ui_MainWindow(object):
         self.play.setObjectName(u"play")
 
         self.verticalLayout_2.addWidget(self.play)
-        self.play.clicked.connect(QtFrontendNode.play(msg="start"))
+        self.play.clicked.connect(QtFrontendNode.play(self=QtFrontendNode,msg="start"))
         #停止播放 按钮
         self.end_play = QPushButton(self.centralwidget)
         self.end_play.setObjectName(u"end_play")
