@@ -62,7 +62,7 @@ class CoreNode(Node):
         point=msg.data
     def mode_callback(self,msg):
         global mode
-        mode=msg.datas
+        mode=msg.data
     def pubstat(self,msg):#发布运行状态
         ctlmsg=String()
         ctlmsg.data=str(msg)
