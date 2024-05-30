@@ -74,6 +74,7 @@ class CoreNode(Node):
     def process_thread(self):
         while True:
             msg=''
+            print(play )
             if play =='stop':
                 self.pubact(msg="停止中") 
                 continue
@@ -86,6 +87,7 @@ class CoreNode(Node):
                     msg+='\n未选择有效文件'
             self.pubact(msg=msg)                
     def processcore(self,points):#点位信息转化
+        points=list(points)
         try:
             for i1 in [0,5,6,9,10]:
                 for i2 in [0,1]:
