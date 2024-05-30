@@ -48,7 +48,6 @@ class CoreNode(Node):
         
     def play_callback(self,msg):
         global play
-        print(msg.data)
         play=msg.data
     def rec_callback(self,msg):
         global rec
@@ -59,7 +58,7 @@ class CoreNode(Node):
         
     def points_callback(self,msg):
         global point
-        point=msg.data
+        point=list(msg.data)
     def mode_callback(self,msg):
         global mode
         mode=msg.data
@@ -90,6 +89,7 @@ class CoreNode(Node):
             self.pubstat(msg=msg)                
     def processcore(self,points):#点位信息转化
         points=list(points)
+        print(points)
         try:
             for i1 in [0,5,6,9,10]:
                 print('first:  ',i1,points[i1],type(points[i1]))
