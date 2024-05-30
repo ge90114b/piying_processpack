@@ -85,7 +85,7 @@ class CoreNode(Node):
                 msg+='文件模式'                    
                 if not filedir or not filedir.endswith(".act"):
                     msg+='\n未选择有效文件'
-            self.pubact(msg=msg)                
+            self.pubstat(msg=msg)                
     def processcore(self,points):#点位信息转化
         points=list(points)
         try:
@@ -94,6 +94,7 @@ class CoreNode(Node):
                     if points[i1][i2]==0:
                         return "\n未识别到有效人体关键点！"
         except :
+            print(points)
             return '\nerror'
 
         
