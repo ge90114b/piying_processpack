@@ -84,6 +84,7 @@ class CoreNode(Node):
                 msg+='文件模式'                    
                 if not filedir or not filedir.endswith(".act"):
                     msg+='\n未选择有效文件'
+                    self.pubstat(msg=msg) 
                     continue
             self.pubstat(msg=msg)                
     def processcore(self,points):#点位信息转化
