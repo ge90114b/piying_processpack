@@ -17,7 +17,7 @@ app = QApplication(sys.argv)
 #designer自动生成代码由 class Ui_MainWindow(object): 到 # retranslateUi，这一部分代码会因ui变化而反复被替代，建议全局变量不要写进setupUi内，可以再设一个class存储所有的全局变量
 #按钮加事件用 self.对象.clicked.connect(函数)
 class Ui_MainWindow(object):
-    playbut = pyqtSignal(bool)
+    playbut = pyqtSignal()
     endplaybut = pyqtSignal()
     recbut = pyqtSignal()
     endrecbut = pyqtSignal()
@@ -166,9 +166,8 @@ class QtFrontendNode(Node):
         self.recpub=self.create_publisher(String,'rec',qos_profile)
         self.filepub=self.create_publisher(String,'filedir',qos_profile)
 
-        self.ui.play.clicked.connect(self.on_play_button_clicked)
-    @pyqtSlot
-    def on_play_button_clicked(self):  
+        self.ui.play.clicked.connect(lambda : print(6))
+    def clicked(self):  
             # 处理按钮点击事件  
         print("CLICKED")
         msg = String()  
