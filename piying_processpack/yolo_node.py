@@ -78,7 +78,7 @@ class YoloNode(Node):
             except json.JSONDecodeError as e:
                 print(f"Error decoding JSON header: {e}")
                 continue
-            if abs(timestamp-nowtime)>0.1:
+            if abs(timestamp-nowtime)>0.3:
                 print("drop the frame",timestamp,nowtime)
                 continue
             # 确保接收到了完整的帧
