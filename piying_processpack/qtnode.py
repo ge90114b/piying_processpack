@@ -60,7 +60,7 @@ class Ui_MainWindow(object):
         self.end_play.setObjectName(u"end_play")
 
         self.verticalLayout_2.addWidget(self.end_play)
-        self.end_play.clicked.connect(QtFrontendNode.play(msg="stop"))
+        self.end_play.clicked.connect(QtFrontendNode.play(self=QtFrontendNode,msg="stop"))
 
 
         self.gridLayout.addLayout(self.verticalLayout_2, 0, 2, 1, 1)
