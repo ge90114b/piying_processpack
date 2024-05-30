@@ -10,6 +10,7 @@ play='stop'
 rec="stop"
 filedir=''
 point=''
+mode='cap'
 class CoreNode(Node):
     def __init__(self):
         super().__init__('CoreNode')
@@ -38,7 +39,9 @@ class CoreNode(Node):
             String,  
             'mode',  
             self.mode_callback, qos_profile) #创建模式subscriber
-        self.action_publisher = self.create_publisher(String, 'action', qos_profile) 
+        self.action_publisher = self.create_publisher(String, 'action', qos_profile) #创建动作publisher
+        self.statue_publisher = self.create_publisher(String, 'stat', qos_profile)#创建状态publisher
+        
         self.process_thr=threading.Thread(target=self.process_thread)
         self.process_thr.daemon=True
         self.process_thr.start()
@@ -51,37 +54,52 @@ class CoreNode(Node):
         global rec
         rec=msg.data
     def dir_callback(self,msg):
-        global dir
-        dir=msg.data
+        global filedir
+        filedir=msg.data
+        
     def points_callback(self,msg):
         global point
         point=msg.data
+    def mode_callback(self,msg):
+        global mode
+        mode=msg.datas
+    def pubstat(self,msg):#发布运行状态
+        ctlmsg=String()
+        ctlmsg.data=str(msg)
+        self.statue_publisher.publish(ctlmsg)
+    def pubact(self,msg):#发布动作
+        ctlmsg=String()
+        ctlmsg.data=str(msg)
+        self.action_publisher.publish(ctlmsg)
     def process_thread(self):
         while True:
+            msg=''
             if play =='stop':
                 continue
-            
-            self.processcore(points=point)
+            if mode == 'cap':
+                msg+='实时模式'
+                msg+=self.processcore(points=point)
+            elif mode == "file":
+                msg+='文件模式'                    
+                if not filedir or not filedir.endswith(".act"):
+                    msg+='\n未选择有效文件'
+            self.pubact(msg=msg)                
     def processcore(self,points):#点位信息转化
         for i1 in [0,5,6,9,10]:
             for i2 in [0,1]:
                 if points[i1][i2]==0:
-                    bad=True
-                    break
-            if bad:
-                break
-        if not bad:
-            nose=points[0]
-            left_shoulder=points[5]
-            right_shoulder=points[6]
-            centpoint=[]
-            for pos in [0,1]:
-                centpoint[pos]=(left_shoulder[pos]+right_shoulder[pos])/2
+                    return "\n未识别到有效人体关键点！"
+        
+        nose=points[0]
+        left_shoulder=points[5]
+        right_shoulder=points[6]
+        centpoint=[]
+        for pos in [0,1]:
+            centpoint[pos]=(left_shoulder[pos]+right_shoulder[pos])/2
                 
-            left_hand=points[9]
-            right_hand=points[10]
-
-
+        left_hand=points[9]
+        right_hand=points[10]
+        print(nose,centpoint,left_hand,right_hand)
 
 
 def main(args=None):

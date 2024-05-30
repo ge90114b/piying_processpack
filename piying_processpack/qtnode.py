@@ -10,7 +10,6 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from sys import exit, argv
 import sys
-from PyQt5.QtCore import pyqtSignal  
 
 app = QApplication(sys.argv)
 
@@ -166,6 +165,8 @@ class Ui_MainWindow(object):
         scaled_pixmap = pixmap.scaled(self.label.width(), self.label.height(), Qt.KeepAspectRatio, Qt.SmoothTransformation)  
         self.label.setPixmap(scaled_pixmap) 
         QApplication.processEvents()
+    def setStatueText(self, text: str):  #更新状态栏
+        self.statue.setText(text)
 
 
 class QtFrontendNode(Node):
@@ -185,16 +186,23 @@ class QtFrontendNode(Node):
             Image,
             'image/frame', 
             self.image_callback, qos_profile)#创建图片subscriber
+        self.statsubscription = self.create_subscription(
+            String,
+            'stat', 
+            lambda msg: self.ui.setStatueText(msg), qos_profile)#创建图片subscriber
         
         self.playpub=self.create_publisher(String,'play',qos_profile)#为开始按钮、文件名、录制按钮创建发布者
         self.recpub=self.create_publisher(String,'rec',qos_profile)
         self.filepub=self.create_publisher(String,'filedir',qos_profile)
+        self.modepub=self.create_publisher(String,'mode',qos_profile)
 
         self.ui.play.clicked.connect(lambda : self.play(msg="start"))
         self.ui.end_play.clicked.connect(lambda : self.play(msg="stop"))
         self.ui.record.clicked.connect(lambda : self.rec(msg="start"))
         self.ui.end_record.clicked.connect(lambda : self.rec(msg="stop"))
         self.ui.summit.clicked.connect(lambda : self.filedir())
+        self.ui.capture.clicked.connect(lambda : self.modeswitch(msg="cap"))
+        self.ui.readFiles.clicked.connect(lambda : self.modeswitch(msg="file"))
 
     def image_callback(self, msg):
         cv_image = self.bridge.imgmsg_to_cv2(msg, "bgr8")#接受图片topic并转为opencv
@@ -212,6 +220,10 @@ class QtFrontendNode(Node):
         msg=String()
         msg.data=dir
         self.filepub.publish(msg)
+    def modeswitch(self,msg):#传递模式切换
+        ctlmsg=String()
+        ctlmsg.data=msg
+        self.modepub.publish(ctlmsg)
 def main(args=None):
     rclpy.init(args=args)
     node = QtFrontendNode()
