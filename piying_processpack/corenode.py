@@ -74,6 +74,7 @@ class CoreNode(Node):
         self.action_publisher.publish(ctlmsg)
     def process_thread(self):
         while True:
+            print("\n\n\n\n",point,"\n\n\n\n")
             msg=''
             if play =='stop':
                 self.pubact(msg="停止中") 
@@ -94,7 +95,7 @@ class CoreNode(Node):
                     if points[i1][i2]==0:
                         return "\n未识别到有效人体关键点！"
         except :
-            print(points)
+            
             return '\nerror'
 
         

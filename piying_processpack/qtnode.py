@@ -213,7 +213,6 @@ class QtFrontendNode(Node):
         self.ui.ShowCV(cv_image)
     def stat_callback(self,msg):
         stat=msg.data
-        print(stat)
         self.ui.setStatueText(stat)
     def play(self,msg):#控制是否开始
         ctlmsg=String()
