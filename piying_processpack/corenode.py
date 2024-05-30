@@ -92,10 +92,7 @@ class CoreNode(Node):
         print(points)
         try:
             for i1 in [0,5,6,9,10]:
-                print('first:  ',i1,points[i1],type(points[i1]))
-                time.sleep(1)
                 for i2 in [0,1]:
-                    print("second:   ",i2,points[i1][i2])
                     if points[i1][i2]==0:
                         return "\n未识别到有效人体关键点！"
         except :
