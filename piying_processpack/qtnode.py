@@ -156,15 +156,17 @@ class Ui_MainWindow(object):
 
     #openCV显示主函数
     def ShowCV(self, cv_image):  
-    # 将OpenCV的BGR图像转换为Qt的QImage（需要RGB格式）  
+        # 将OpenCV的BGR图像转换为Qt的QImage（需要RGB格式）  
         height, width, channel = cv_image.shape  
         bytes_per_line = 3 * width  # RGB图像，每像素3个字节  
         qt_image = QImage(cv_image.data, width, height, bytes_per_line, QImage.Format_RGB888).rgbSwapped()  
     
-        # 创建QPixmap对象，并设置QLabel  
+        # 更新QPixmap对象，并设置QLabel  
         self.pixmap = QPixmap.fromImage(qt_image)  
         scaled_pixmap = self.pixmap.scaled(self.label.width(), self.label.height(), Qt.KeepAspectRatio, Qt.SmoothTransformation)  
         self.label.setPixmap(scaled_pixmap) 
+        print("QLabel dimensions:", self.label.width(), self.label.height())
+        print("QPixmap dimensions:", self.pixmap.width(), self.pixmap.height())
         QApplication.processEvents()
     def setStatueText(self, text: str):  #更新状态栏
         self.statue.setText(text)
