@@ -77,7 +77,7 @@ class CoreNode(Node):
             print("\n\n\n\n",point,"\n\n\n\n")
             msg=''
             if play =='stop':
-                self.pubact(msg="停止中") 
+                self.pubstat(msg="停止中") 
                 continue
             if mode == 'cap':
                 msg+='实时模式'
@@ -86,6 +86,7 @@ class CoreNode(Node):
                 msg+='文件模式'                    
                 if not filedir or not filedir.endswith(".act"):
                     msg+='\n未选择有效文件'
+                    continue
             self.pubstat(msg=msg)                
     def processcore(self,points):#点位信息转化
         points=list(points)
