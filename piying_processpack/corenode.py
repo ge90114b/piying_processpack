@@ -75,6 +75,7 @@ class CoreNode(Node):
         while True:
             msg=''
             if play =='stop':
+                self.pubact(msg="停止中") 
                 continue
             if mode == 'cap':
                 msg+='实时模式'
