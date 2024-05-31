@@ -71,6 +71,11 @@ class CoreNode(Node):
         ctlmsg=String()
         ctlmsg.data=str(msg)
         self.action_publisher.publish(ctlmsg)
+    def minus(self,cent,org):
+        pr=[0,0]
+        for i in range(1):
+            pr[i]=org[i]-cent[i]
+        return pr
     def process_thread(self):
         while True:
             msg=''
@@ -109,7 +114,9 @@ class CoreNode(Node):
         left_hand=[round(x / 160,3) for x in points[9]] 
         right_hand=[round(x / 160,3) for x in points[10]] 
         print(nose,centpoint,left_hand,right_hand)
+        
         return "\n正在捕捉"
+    
 
 
 def main(args=None):
