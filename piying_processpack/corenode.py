@@ -6,12 +6,14 @@ from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy
 import threading
 import time
 import json
+import numpy as np
 
 play='stop'
 rec="stop"
 filedir=''
 point=''
 mode='cap'
+newPoints = []
 class CoreNode(Node):
     def __init__(self):
         super().__init__('CoreNode')
@@ -73,7 +75,7 @@ class CoreNode(Node):
         self.action_publisher.publish(ctlmsg)
     def minus(self,cent,org):
         pr=[0,0]
-        for i in range(1):
+        for i in range(2):
             pr[i]=org[i]-cent[i]
         return pr
     def process_thread(self):
@@ -92,15 +94,22 @@ class CoreNode(Node):
                     self.pubstat(msg=msg) 
                     continue
             self.pubstat(msg=msg)                
-    def processcore(self,points):#点位信息转化
+    def processcore(self,points:list,orgPoint:np.ndarray):#点位信息转化, orgPoint(原点)为数组
         print(points)
         try:
+            arrayList,newPoints = [],[]      
             for i1 in [0,5,6,9,10]:
                 for i2 in [0,1]:
                     if points[i1][i2]==0:
                         return "\n未识别到有效人体关键点！"
-        except :
             
+                #坐标转换 将手臂中点移向坐标原点（orgPoint）
+                arrayList.append(np.array(points[i1])) #将列表转为数组
+            midP = arrayList[1] + (arrayList[1] - arrayList[2])/2 #计算中点（向量法）
+            vector = orgPoint - midP #转换向量
+            for i in arrayList:
+                newPoints.append(i + vector)
+        except :
             return '\nerror'
 
         
