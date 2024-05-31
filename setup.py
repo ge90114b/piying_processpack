@@ -26,7 +26,8 @@ setup(
         'console_scripts': [
             'yolo=piying_processpack.yolo_node:main',
             'frontend=piying_processpack.frontend:main',
-            'qtfrontend=piying_processpack.qtnode:main'
+            'qtfrontend=piying_processpack.qtnode:main',
+            'core=piying_processpack.corenode:main'
         ],
     },
 )
