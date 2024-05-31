@@ -99,15 +99,15 @@ class CoreNode(Node):
             return '\nerror'
 
         
-        nose=points[0]
-        left_shoulder=points[5]
-        right_shoulder=points[6]
+        nose = [round(x / 160,3) for x in points[0]] 
+        left_shoulder=[round(x / 160,3) for x in points[5]] 
+        right_shoulder=[round(x / 160,3) for x in points[6]] 
         centpoint=[0,0]
         for pos in [0,1]:
             centpoint[pos]=(left_shoulder[pos]+right_shoulder[pos])/2
-                
-        left_hand=points[9]
-        right_hand=points[10]
+        centpoint=[round(x / 160,3) for x in centpoint] 
+        left_hand=[round(x / 160,3) for x in points[9]] 
+        right_hand=[round(x / 160,3) for x in points[10]] 
         print(nose,centpoint,left_hand,right_hand)
         return "\n正在捕捉"
 
