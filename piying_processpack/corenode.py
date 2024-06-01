@@ -94,7 +94,8 @@ class CoreNode(Node):
                     self.pubstat(msg=msg) 
                     continue
             self.pubstat(msg=msg)                
-    def processcore(points:list,orgPoint:np.ndarray):
+    def processcore(points:list,orgPoint:np.ndarray = np.array((0,0))):
+        global newPoints
         arrayList,newPoints = [],[]    
         if len(points) == 11:           #正式用，调试不用
             for i1 in [0,5,6,9,10]:
@@ -109,21 +110,26 @@ class CoreNode(Node):
         vector = orgPoint - midP #转换向量
         for i in arrayList:
             newPoints.append(i + vector)
+        left_hand = newPoints[3] + np.array((-50,-50))
+        right_hand = newPoints[4] + np.array((-50,50))
+        nose = newPoints[0] + np.array((0,20))
+        return midP, left_hand, right_hand, nose
+    
         try:...
         except :
             return '\nerror'
 
         
-        nose = [round(x / 160,3) for x in points[0]] 
-        left_shoulder=[round(x / 160,3) for x in points[5]] 
-        right_shoulder=[round(x / 160,3) for x in points[6]] 
-        centpoint=[0,0]
-        for pos in [0,1]:
-            centpoint[pos]=(left_shoulder[pos]+right_shoulder[pos])/2
-        centpoint=[round(x / 160,3) for x in centpoint] 
-        left_hand=[round(x / 160,3) for x in points[9]] 
-        right_hand=[round(x / 160,3) for x in points[10]] 
-        print(nose,centpoint,left_hand,right_hand)
+        #nose = [round(x / 160,3) for x in points[0]] 
+        #left_shoulder=[round(x / 160,3) for x in points[5]] 
+        #right_shoulder=[round(x / 160,3) for x in points[6]] 
+        #centpoint=[0,0]
+        #for pos in [0,1]:
+        #    centpoint[pos]=(left_shoulder[pos]+right_shoulder[pos])/2
+        #centpoint=[round(x / 160,3) for x in centpoint] 
+        #left_hand=[round(x / 160,3) for x in points[9]] 
+        #right_hand=[round(x / 160,3) for x in points[10]] 
+        #print(nose,centpoint,left_hand,right_hand)
         
         return "\n正在捕捉"
     
