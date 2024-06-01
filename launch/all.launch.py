@@ -26,6 +26,6 @@ def generate_launch_description():
     
     return LaunchDescription([  
         yolo_node,  
-        frontend_node, 
+        core_node, 
         qt_frontend_node 
     ])
