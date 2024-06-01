@@ -108,6 +108,7 @@ class CoreNode(Node):
             points = [points[0],points[5],points[6],points[9],points[10]]
         for i1 in points:
             arrayList.append(np.array(i1)) #将列表转为数组
+        print(type(midP),type(orgPoint))
         midP = arrayList[1] + (arrayList[2] - arrayList[1])/2 #计算中点（向量法）
         vector = orgPoint - midP #转换向量
         for i in arrayList:
