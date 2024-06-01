@@ -23,6 +23,12 @@ def generate_launch_description():
         name='qtfrontend_node',  
         
     ) 
+    core_node = Node(  
+        package='piying_processpack',  
+        executable='core',  
+        name='core_node',  
+        
+    ) 
       
     
     return LaunchDescription([  
