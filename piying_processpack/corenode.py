@@ -7,6 +7,7 @@ import threading
 import time
 import json
 import numpy as np
+from piying_processpack.send_to_py import send
 
 play='stop'
 rec="stop"
@@ -113,6 +114,7 @@ class CoreNode(Node):
         left_hand = newPoints[3] + np.array((-50,-50))
         right_hand = newPoints[4] + np.array((-50,50))
         nose = newPoints[0] + np.array((0,20))
+        send(nose,left_hand,right_hand,midP[0],midP[1])
         return midP, left_hand, right_hand, nose
     
         try:...
