@@ -87,7 +87,8 @@ class CoreNode(Node):
                 continue
             if mode == 'cap':
                 msg+='实时模式'
-                msg+=self.processcore(point,np.array([0,0]))
+                p=np.array([0,0])
+                msg+=self.processcore(point,np)
             elif mode == "file":
                 msg+='文件模式'                    
                 if not filedir or not filedir.endswith(".act"):
@@ -95,7 +96,7 @@ class CoreNode(Node):
                     self.pubstat(msg=msg) 
                     continue
             self.pubstat(msg=msg)                
-    def processcore(points:list,orgPoint):
+    def processcore(self,points:list,orgPoint):
         global newPoints
         arrayList,newPoints = [],[]    
         if len(points) == 11:           #正式用，调试不用
