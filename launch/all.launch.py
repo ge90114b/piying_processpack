@@ -9,14 +9,7 @@ def generate_launch_description():
         name='yolo_node',  
         
     )  
-      
-    # 定义frontend节点  
-    frontend_node = Node(  
-        package='piying_processpack',  
-        executable='frontend',  
-        name='frontend_node',  
-        
-    )  
+
     qt_frontend_node = Node(  
         package='piying_processpack',  
         executable='qtfrontend',  
