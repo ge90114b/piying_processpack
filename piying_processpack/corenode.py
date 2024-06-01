@@ -115,7 +115,7 @@ class CoreNode(Node):
         right_hand = newPoints[4] + np.array((-50,50))
         nose = newPoints[0] + np.array((0,20))
         send(nose,left_hand,right_hand,midP.tolist()[0],midP.tolist()[1])
-        return "正常"
+        return "\n正常"
     
         try:...
         except :
