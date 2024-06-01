@@ -94,21 +94,22 @@ class CoreNode(Node):
                     self.pubstat(msg=msg) 
                     continue
             self.pubstat(msg=msg)                
-    def processcore(self,points:list,orgPoint:np.ndarray):#点位信息转化, orgPoint(原点)为数组
-        print(points)
-        try:
-            arrayList,newPoints = [],[]      
+    def processcore(points:list,orgPoint:np.ndarray):
+        arrayList,newPoints = [],[]    
+        if len(points) == 11:           #正式用，调试不用
             for i1 in [0,5,6,9,10]:
                 for i2 in [0,1]:
                     if points[i1][i2]==0:
                         return "\n未识别到有效人体关键点！"
-            
                 #坐标转换 将手臂中点移向坐标原点（orgPoint）
-                arrayList.append(np.array(points[i1])) #将列表转为数组
-            midP = arrayList[1] + (arrayList[1] - arrayList[2])/2 #计算中点（向量法）
-            vector = orgPoint - midP #转换向量
-            for i in arrayList:
-                newPoints.append(i + vector)
+            points = [points[0],points[5],points[6],points[9],points[10]]
+        for i1 in points:
+            arrayList.append(np.array(i1)) #将列表转为数组
+        midP = arrayList[1] + (arrayList[2] - arrayList[1])/2 #计算中点（向量法）
+        vector = orgPoint - midP #转换向量
+        for i in arrayList:
+            newPoints.append(i + vector)
+        try:...
         except :
             return '\nerror'
 
