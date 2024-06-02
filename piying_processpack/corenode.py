@@ -88,7 +88,7 @@ class CoreNode(Node):
             if mode == 'cap':
                 msg+='实时模式'
                 p=np.array([0,0])
-                msg+=self.processcore(point,np)
+                msg+=self.processcore(point,p)
             elif mode == "file":
                 msg+='文件模式'                    
                 if not filedir or not filedir.endswith(".act"):
