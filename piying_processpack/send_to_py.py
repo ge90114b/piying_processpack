@@ -9,11 +9,11 @@ class send():
             socket.bind("tcp://*:6666") 
             # 准备一个 JSON 对象  
             data = {
-                "HEAD":HEAD,
-                "LEFT_HAND":LEFT_HAND,
-                "RIGHt_HAND":RIGHT_HAND,
-                "X":X,
-                "Y":Y
+                "HEAD":str(HEAD),
+                "LEFT_HAND":str(LEFT_HAND),
+                "RIGHt_HAND":str(RIGHT_HAND),
+                "X":str(X),
+                "Y":str(Y)
             }  
             data = json.dumps(data)
             
